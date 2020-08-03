@@ -40,6 +40,8 @@ uniform vec3 cameraPosition;
 uniform int viewHeight;
 uniform int viewWidth;
 
+varying float test;
+
 vec3 getAlbedo(in vec2 coord) {
   return pow(texture2D(gcolor, coord).rgb, vec3(2.2));
 }
@@ -179,13 +181,16 @@ vec3 calculateLighting(in Fragment frag, in LightMap lightmap) {
 
   vec3 skyLight = skyColor * lightmap.skyLightStrength;
 
+  //return vec3(directLightStrength);
+
   vec3 fcolor = max(skyLight, torchLight);
   fcolor = max(fcolor, directLight);
 
   vec3 sunlightAmount = getShadowColor(texcoord.st);
 
-  vec3 litColor = frag.albedo * mix(fcolor, fcolor+directLight+torchLight, 0.4);
-  litColor =  frag.albedo * mix(fcolor, fcolor + directLight + torchLight, sunlightAmount / vec3(0.8));
+  //vec3 litColor = frag.albedo * mix(fcolor, fcolor+directLight+torchLight, 0.4);
+
+  vec3 litColor =  frag.albedo * mix(fcolor, fcolor + directLight + torchLight + skyLight, sunlightAmount / vec3(.8));
 
   return mix(litColor.rgb, frag.albedo, (frag.emission));
 }
@@ -196,8 +201,15 @@ void main() {
   LightMap lightmap = getLightMapSample(texcoord.st);
   vec3 finalColor = calculateLighting(frag, lightmap);
 
+  vec3 vect;
 
-	gl_FragData[0] = vec4(finalColor, 1.0); //gcolor
+  if(test < 0) {
+    vect = vec3(0.0, 0.0, -1*(test));
+  } else {
+    vect = vec3((test), 0.0, 0.0);
+  }
+
+	gl_FragData[0] = vec4(finalColor , 1.0); //gcolor
   //gl_FragData[0] = vec4(getShadowColor(texcoord.st), 1.0);
   //gl_FragData[0] = vec4(texture2D(gdepth, texcoord.st).rga, 1.0);
   //gl_FragData[0] = vec4(vec3(getDepth(texcoord.st)), 1.0);

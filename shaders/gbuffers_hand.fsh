@@ -16,7 +16,7 @@ void main() {
   //color *= texture2D(lightmap, lmcoord);
 
   gl_FragData[0] = vec4(handColor); //gcolor
-  gl_FragData[2] = vec4(normal * 0.5 + 0.5, 1.0); //gnormal
-  gl_FragData[1] = vec4(texcoord.st / 16.0, max(.1, heldBlockLightValue/16.0), 1.0); //gdepth
+  gl_FragData[2] = vec4((normal * 0.5 + 0.5), 1.0); //gnormal
+  gl_FragData[1] = vec4(texcoord.st / 16.0, max(.3, heldBlockLightValue/16.0), 1.0); //gdepth
 
 }
