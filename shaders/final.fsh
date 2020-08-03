@@ -2,6 +2,8 @@
 
 #include "/lib/framebuffer.glsl"
 
+#define profile_color 0.0 //[0.0 1.0 2.0 3.0]
+
 varying vec4 texcoord;
 
 uniform sampler2D gcolor;
@@ -73,14 +75,14 @@ void main() {
 
   color = getExposure(color);
 
-  float profile_color = 0.0; //[0.0, 1.0, 2.0, 3.0]
-
   if(profile_color == 0.0) {
     color = Reinghard(color);
   } else if (profile_color == 1.0) {
     color = uncharted2Tonemap(color);
   } else if (profile_color == 2.0) {
     color = Burgess(color);
+  } else {
+    color = vec3(1.0);
   }
 
   gl_FragColor = vec4(pow(color.rgb, vec3(1.0 / 2.2)), 1.0);
