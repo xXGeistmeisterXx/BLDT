@@ -81,8 +81,6 @@ void main() {
     color = uncharted2Tonemap(color);
   } else if (profile_color == 2.0) {
     color = Burgess(color);
-  } else {
-    color = vec3(1.0);
   }
 
   gl_FragColor = vec4(pow(color.rgb, vec3(1.0 / 2.2)), 1.0);
