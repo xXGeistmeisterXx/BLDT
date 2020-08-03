@@ -49,7 +49,7 @@ vec3 getNormal(in vec2 coord) {
 }
 
 float getEmission(in vec2 coord) {
-  return texture2D(gdepth, coord).a;
+  return texture2D(gdepth, coord).b;
 }
 
 float getTorchLightStrength(in vec2 coord) {
@@ -168,6 +168,7 @@ LightMap getLightMapSample(in vec2 coord) {
 }
 
 vec3 calculateLighting(in Fragment frag, in LightMap lightmap) {
+
   float directLightStrength = dot(frag.normal, lightVector);
   directLightStrength = max(0.0, directLightStrength);
   vec3 directLight = directLightStrength * lightColor;
@@ -185,11 +186,8 @@ vec3 calculateLighting(in Fragment frag, in LightMap lightmap) {
 
   vec3 litColor = frag.albedo * mix(fcolor, fcolor+directLight+torchLight, 0.4);
   litColor =  frag.albedo * mix(fcolor, fcolor + directLight + torchLight, sunlightAmount / vec3(0.8));
-  //litColor *= pow(sunlightAmount, vec3(1.0/5.0));
-  //litColor = mix(vec3(1.0), litColor, texture2D(depthtex0, texcoord.st).r);
-  //return vec3(frag.normal);
+
   return mix(litColor.rgb, frag.albedo, (frag.emission));
-  //return vec3(frag.emission);
 }
 
 void main() {

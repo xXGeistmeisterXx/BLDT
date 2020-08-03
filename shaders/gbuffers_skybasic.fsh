@@ -31,5 +31,5 @@ void main() {
 
 /* DRAWBUFFERS:0 */
 	gl_FragData[0] = vec4(color, 1.0); //gcolor
-	gl_FragData[1] = vec4(0.0, 0.0, 0.0, 1.0);  //gdepth
+	gl_FragData[1] = vec4(0.0, 0.0, 1.0, 1.0);  //gdepth
 }
